@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "package": "com.simplemods.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": ["SimpleModsMixin"],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
