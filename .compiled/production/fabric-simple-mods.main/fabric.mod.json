@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "simplemods",
+  "version": "${version}",
+  "name": "Simple Mods",
+  "description": "A collection of my simple fabric mods\nBy SchweGELBin",
+  "authors": ["SchweGELBin"],
+  "contact": {
+    "homepage": "https://github.com/SchweGELBin/",
+    "sources": "https://github.com/SchweGELBin/fabric-simple-mods"
+  },
+  "license": "CC0-1.0",
+  "icon": "assets/simplemods/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["com.schwegelbin.simplemods.SimpleMods"],
+    "client": ["com.schwegelbin.simplemods.SimpleModsClient"]
+  },
+  "mixins": [
+    "simplemods.mixins.json",
+    {
+      "config": "simplemods.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.21",
+    "minecraft": "~1.20.1",
+    "java": ">=17",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
