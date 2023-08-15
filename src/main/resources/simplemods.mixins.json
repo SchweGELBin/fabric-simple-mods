@@ -2,7 +2,9 @@
   "required": true,
   "package": "com.schwegelbin.simplemods.mixin",
   "compatibilityLevel": "JAVA_17",
-  "mixins": ["SimpleModsMixin"],
+  "mixins": [
+    "SimpleModsMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

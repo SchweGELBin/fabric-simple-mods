@@ -14,7 +14,7 @@
   "environment": "*",
   "entrypoints": {
     "main": ["com.schwegelbin.simplemods.SimpleMods"],
-    "client": ["com.schwegelbin.simplemods.SimpleModsClient"]
+    "client": ["com.schwegelbin.simplemods.ClientEntrypoint"]
   },
   "mixins": [
     "simplemods.mixins.json",
