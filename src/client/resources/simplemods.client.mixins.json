@@ -3,7 +3,8 @@
   "package": "com.schwegelbin.simplemods.mixin.client",
   "compatibilityLevel": "JAVA_17",
   "client": [
-    "SimpleModsClientMixin"
+    "SimpleModsClientMixin",
+    "ClientConnectionInvoker"
   ],
   "injectors": {
     "defaultRequire": 1

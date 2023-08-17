@@ -5,13 +5,16 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
 
+// Entrypoint / Default Class for Client sided mods
 public class ClientEntrypoint implements ClientModInitializer {
+    // Minecraft client
     public static final MinecraftClient mc = MinecraftClient.getInstance();
 
     @Override
     public void onInitializeClient() {
         Keybinds.registerKeybinds();  // Register keybinds
-        ClientTickEvents.END_CLIENT_TICK.register(Keybinds::checkKeybinds);  // Register a function to be called every tick
+        // Run every tick
+        ClientTickEvents.END_CLIENT_TICK.register(Keybinds::checkKeybinds);
         ClientTickEvents.START_CLIENT_TICK.register(Fly::tick);
     }
 }

@@ -1,64 +1,36 @@
 package com.schwegelbin.simplemods.tools;
 
 import com.schwegelbin.simplemods.Keybinds;
-import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.Entity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 
 public class Fly {
-    static int toggle = 0;
-    static int MAX_SPEED = 3;
-    static double FALL_SPEED = -0.04;
-    static double acceleration = 0.1;
 
-    public static void tick(MinecraftClient client){
-        if(client.player!=null && Keybinds.flyEnabled){
-            boolean jumpPressed = client.options.jumpKey.isPressed();
-            boolean forwardPressed = client.options.forwardKey.isPressed();
-            boolean leftPressed = client.options.leftKey.isPressed();
-            boolean rightPressed = client.options.rightKey.isPressed();
-            boolean backPressed = client.options.backKey.isPressed();
+    public static boolean forceAntiFly = false;
+    public static double oldY = 0;
+    public static int floatingTickCount = 0;
 
-            Entity object = client.player;
-            if(client.player.hasVehicle()){
-                object = client.player.getVehicle();
-            }
+    public static void tick(MinecraftClient client) {
+        if(!Keybinds.flyEnabled || client.player == null) return;
 
-            Vec3d velocity = object.getVelocity();
-            Vec3d newVelocity = new Vec3d(velocity.x, -FALL_SPEED, velocity.z);
-            if(jumpPressed){
-                if(forwardPressed){
-                    newVelocity = client.player.getRotationVector().multiply(acceleration);
-                }
-                if(leftPressed && !client.player.hasVehicle()){
-                    newVelocity = client.player.getRotationVector().multiply(acceleration).rotateY(3.1415927F/2);
-                    newVelocity = new Vec3d(newVelocity.x, 0, newVelocity.z);
-                }
-                if(rightPressed && !client.player.hasVehicle()){
-                    newVelocity = client.player.getRotationVector().multiply(acceleration).rotateY(-3.1415927F/2);
-                    newVelocity = new Vec3d(newVelocity.x, 0, newVelocity.z);
-                }
-                if(backPressed){
-                    newVelocity = client.player.getRotationVector().negate().multiply(acceleration);
-                }
+        if (client.player.getPos().getY() >= oldY - 0.0433D) {
+            floatingTickCount += 1;
+        }
 
-                newVelocity = new Vec3d(newVelocity.x, (toggle==0 && newVelocity.y>FALL_SPEED) ? FALL_SPEED : newVelocity.y, newVelocity.z);
-                object.setVelocity(newVelocity);
+        oldY = client.player.getPos().getY();
 
-                if(forwardPressed || leftPressed || rightPressed || backPressed){
-                    if(acceleration<MAX_SPEED){
-                        acceleration += 0.1;
-                    }
-                } else if (acceleration>0.2){
-                    acceleration -= 0.2;
-                }
-            }
+        Vec3d posBelow = client.player.getPos().subtract(0.0, 0.0433D, 0.0);
+        Vec3i roundedPos = new Vec3i((int)posBelow.getX(),(int)posBelow.getY(),(int)posBelow.getZ());
 
-            if(toggle == 0 || newVelocity.y <= -0.04){
-                toggle = 40;
-            }
-            toggle--;
+        if ((floatingTickCount > 20 || forceAntiFly)
+                && client.player.clientWorld.getBlockState(new BlockPos(roundedPos)).isAir()){
+            PacketHelper.sendPosition(posBelow);
+            PacketHelper.sendPosition(posBelow.add(0.0, 0.0433D, 0.0));
+
+            forceAntiFly = false;
+            floatingTickCount = 0;
         }
     }
 }

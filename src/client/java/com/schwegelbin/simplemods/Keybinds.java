@@ -9,24 +9,36 @@ import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import org.lwjgl.glfw.GLFW;
 
 public class Keybinds {
+    // Category name in Keybind settings
     public static final String CATEGORY = "Simple Mods";
+
+    // Variables
     public static boolean flyEnabled = false;
 
+    // Keybinds
     private static final KeyBinding flyKeybind = new KeyBinding("Toggle Fly",
-            GLFW.GLFW_KEY_I, CATEGORY);  // Up arrow key
+            GLFW.GLFW_KEY_I, CATEGORY);
+    private static final KeyBinding testKeybind = new KeyBinding("Test Key",
+            GLFW.GLFW_KEY_APOSTROPHE, CATEGORY);
 
+    // Set keybinds
     public static void registerKeybinds() {  // Make keybinds show up in settings
         KeyBindingHelper.registerKeyBinding(flyKeybind);
     }
 
+    // Execute, when pressed
     public static void checkKeybinds(MinecraftClient client) {
         ClientPlayNetworkHandler networkHandler = client.getNetworkHandler();
         if (client.player == null || networkHandler == null) {
             return;
         }
-        while (flyKeybind.wasPressed()) {  // Check if keybind was pressed
+        while (flyKeybind.wasPressed()) {
             flyEnabled = !flyEnabled;
-            //client.player.getAbilities().allowFlying = !client.player.getAbilities().allowFlying;
+            client.player.getAbilities().allowFlying = !client.player.getAbilities().allowFlying;
+        }
+
+        while (testKeybind.wasPressed()) {  // Check if keybind was pressed
+            // Test Action
         }
     }
 }
