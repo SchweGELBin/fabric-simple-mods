@@ -12,12 +12,12 @@ public class PacketHelper {
 
     // Send Position Immediately (Without any notice in game)
     public static void sendPosition(Vec3d pos){
-        MinecraftClient client = MinecraftClient.getInstance();
+        MinecraftClient client = ClientEntrypoint.mc;
         assert client.player != null;
         ClientConnectionInvoker conn = (ClientConnectionInvoker)client.player.networkHandler.getConnection();
         pos = PacketHelper.fixCoords(pos);
         Packet<ServerPlayPacketListener> packet = new PlayerMoveC2SPacket.PositionAndOnGround(pos.getX(), pos.getY(), pos.getZ(), false);
-        conn.sendIm(packet, null);
+        conn.sendPIm(packet, null);
     }
 
     // Round Coordinates
