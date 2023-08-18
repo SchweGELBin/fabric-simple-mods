@@ -55,4 +55,7 @@ public class XRay{
     public static boolean isInterestingBlock(Block block){
         return xRayBlocks.contains(block.toString());
     }
+
+    // TODO Simulate F3 + T (Reload resources)
+    // NOTE Use FullBright resource pack by VanillaTweaks
 }

@@ -44,8 +44,9 @@ public class Keybinds {
         }
 
         while (fullbrightKeybind.wasPressed()) {
-            if(Settings.fullbrightEnabled) client.options.getGamma().setValue(1.0); //Maximum Brightness
-            else client.options.getGamma().setValue(0.5); //Medium Brightness
+            // 1.0 - Maximum, 0.5 - Medium
+            double value = Settings.fullbrightEnabled ? 1.0 : 0.5;
+            client.options.getGamma().setValue(value);
             Settings.fullbrightEnabled = !Settings.fullbrightEnabled;
         }
 
